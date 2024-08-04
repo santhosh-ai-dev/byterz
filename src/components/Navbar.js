@@ -66,30 +66,33 @@ const Navbar = () => {
                 className={`${
                   selectedItem === link ? "text-rose-600" : ""
                 } capitalize border-b py-4 md:border-none md:py-0 hover:text-rose-600`}
-                onClick={() => setSelectedItem(link)}
+                onClick={() => {
+                  setSelectedItem(link);
+                  setToggleMenu(false); // Close the menu on item click
+                }}
               >
                 <Link href={`#${link}`}>{link}</Link>
               </li>
             ))}
             <div className="md:hidden mx-auto absolute bottom-16 left-1/2 -translate-x-1/2 flex gap-3">
               <Link
-                href="https://www.facebook.com/profile.php?id=100017192357822&sk"
+                href="https://www.facebook.com/profile.php?id=61561130765610&mibextid=ZbWKwL"
                 target="_blank"
               >
                 <FacebookOutlinedIcon className="cursor-pointer hover:text-rose-600 text-xl" />
               </Link>
               <Link
                 target="_blank"
-                href={"https://www.linkedin.com/in/naseem-khan-275275258/"}
+                href={"https://www.linkedin.com/company/byterz-tech/"}
               >
                 <LinkedInIcon className="cursor-pointer hover:text-rose-600 text-xl" />
               </Link>
-              <Link target="_blank" href={"https://github.com/NaseemKhan005/"}>
+              {/* <Link target="_blank" href={"https://github.com/NaseemKhan005/"}>
                 <GitHubIcon className="cursor-pointer hover:text-rose-600 text-xl" />
-              </Link>
+              </Link> */}
               <Link
                 target="_blank"
-                href={"https://www.instagram.com/naseem_khan005/"}
+                href={"https://www.instagram.com/byterz_tech/"}
               >
                 <InstagramIcon className="cursor-pointer hover:text-rose-600 text-xl" />
               </Link>
