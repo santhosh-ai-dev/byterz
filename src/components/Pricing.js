@@ -2,12 +2,10 @@
 
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ButtonGroup from "./ButtonGroup";
-import { motion, useAnimation } from "framer-motion";
-import { useInView } from "react-intersection-observer";
 import Link from "next/link";
 
 const Plan = ({ title }) => {
@@ -26,23 +24,8 @@ const Plan = ({ title }) => {
 };
 
 const PricingCard = ({ name, title, price, btnText, trail, features, link }) => {
-  const controls = useAnimation();
-  const { ref, inView } = useInView();
-
-  useEffect(() => {
-    if (inView) {
-      controls.start({ opacity: 1, y: 0, scale: 1 });
-    }
-  }, [controls, inView]);
-
   return (
-    <motion.div
-      className="mx-2 md:mx-3 cursor-pointer p-10 transition-all hover:shadow-lg flex flex-col gap-12 rounded-3xl border-neutral-200 border"
-      ref={ref}
-      initial={{ opacity: 0, y: -50, scale: 0.9 }}
-      animate={controls}
-      transition={{ duration: 3 }}
-    >
+    <div className="mx-2 md:mx-3 cursor-pointer p-10 transition-all hover:shadow-lg flex flex-col gap-12 rounded-3xl border-neutral-200 border">
       <div className="flex flex-col gap-3">
         <h2 className="text-xl font-semibold capitalize">{name}</h2>
         <span className="text-neutral-500">{title}</span>
@@ -68,7 +51,7 @@ const PricingCard = ({ name, title, price, btnText, trail, features, link }) => 
           </span>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -97,10 +80,7 @@ const Pricing = () => {
   ];
 
   return (
-    <section
-      className="relative container mx-auto px-5 md:px-16 flex flex-col gap-5"
-      id="pricing"
-    >
+    <section className="relative container mx-auto px-5 md:px-16 flex flex-col gap-5" id="pricing">
       <div>
         <span className="service-name text-center">PRICING PLAN</span>
         <h2 className="title text-center">Choose your pricing policy</h2>
@@ -201,7 +181,8 @@ const responsive = {
 const carouselParams = {
   additionalTransfrom: 0,
   arrows: false,
-  autoPlaySpeed: 3000,
+  autoPlay: true,  // Enable auto play
+  autoPlaySpeed: 3000,  // Speed of auto play in milliseconds
   centerMode: false,
   className: "",
   containerClass: "carousel-container",
@@ -209,7 +190,7 @@ const carouselParams = {
   dotListClass: "",
   draggable: true,
   focusOnSelect: false,
-  infinite: true,
+  infinite: true,  // Enable infinite loop
   itemClass: "",
   keyBoardControl: true,
   minimumTouchDrag: 80,
