@@ -87,7 +87,7 @@ const Team = () => {
           name="Mani Bharathi"
           title="Full-Stack developer"
           socialLinks={{
-            linkedin: "https://www.linkedin.com/in/mani-bharathi-275190252/",
+            linkedin: "https://www.linkedin.com/in/mani-bharathi-r-275190252",
           }}
         />
         <TeamCard
