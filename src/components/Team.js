@@ -85,7 +85,7 @@ const Team = () => {
         <TeamCard
           imgSrc={"/team/1.png"}
           name="Mani Bharathi"
-          title="Full-Stack developer"
+          title="Full-Stack Developer"
           socialLinks={{
             linkedin: "https://www.linkedin.com/in/mani-bharathi-r-275190252",
           }}
@@ -93,7 +93,7 @@ const Team = () => {
         <TeamCard
           imgSrc={"/team/2.png"}
           name="EZHILARASU"
-          title="Front-end developer"
+          title="Front-end Developer"
           socialLinks={{
             linkedin: "https://www.linkedin.com/in/ezhilarasu-v-r-4745192a8/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
           }}
@@ -101,7 +101,7 @@ const Team = () => {
         <TeamCard
           imgSrc={"/team/3.png"}
           name="SANTHOSH"
-          title="Back-end/Ai developer"
+          title="Back-end/Ai Developer"
           socialLinks={{
             linkedin: "https://www.linkedin.com/in/santhosh-r-ds-ai/",
           }}
