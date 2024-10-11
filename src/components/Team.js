@@ -106,6 +106,14 @@ const Team = () => {
             linkedin: "https://www.linkedin.com/in/santhosh-r-ds-ai/",
           }}
         />
+          <TeamCard
+          imgSrc={"/team/7.jpg"}
+          name="RAHULPRASAD"
+          title="Software Tester"
+          socialLinks={{
+            linkedin: "https://www.linkedin.com/in/rahulprasad-veeramani29",
+          }}
+        />
       </div>
     </section>
   );
