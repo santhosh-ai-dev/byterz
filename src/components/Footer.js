@@ -39,7 +39,6 @@ const Footer = () => {
             <InstagramIcon className="hover:text-rose-600 hover:-translate-y-1 transition-all" />
           </Link>
         </div>
-
         <p className="mt-8 text-xs">© 2024 Byterz Tech - All rights reserved</p>
       </div>
     </footer>
