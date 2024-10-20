@@ -40,25 +40,6 @@ const Footer = () => {
           </Link>
         </div>
 
-        {/* Add the logo at the end */}
-        <div className="flex mt-8 space-x-6">
-          <img
-            src={'/govt/AICTE.png'}
-            alt="Byterz Tech Logo"
-            className="h-12"
-          />
-          <img
-            src={'/govt/MCA.png'}
-            alt="Byterz Tech Logo"
-            className="h-12"
-          />
-          <img
-            src={'/govt/MSME.png'}
-            alt="Byterz Tech Logo"
-            className="h-12"
-          />
-        </div>
-
         <p className="mt-8 text-xs">© 2024 Byterz Tech - All rights reserved</p>
       </div>
     </footer>
