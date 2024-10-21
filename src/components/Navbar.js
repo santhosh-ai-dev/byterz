@@ -60,7 +60,7 @@ const Navbar = () => {
             >
               <CloseOutlinedIcon />
             </button>
-            {["home", "Team", "pricing", "Contact"].map((link) => (
+            {["home", "Team", "pricing", "Contact","Internship"].map((link) => (
               <li
                 key={link}
                 className={`${

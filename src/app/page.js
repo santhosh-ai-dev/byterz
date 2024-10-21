@@ -9,7 +9,7 @@ import QualityFeatures from "@/components/QualityFeatures";
 // import Subscribe from "@/components/Subscribe";
 import Team from "@/components/Team";
 // import Testimonials from "@/components/Testimonials";
-// import Work from "@/components/Work";
+import Work from "@/components/Work";
 
 export default function Home() {
   return (
@@ -19,7 +19,7 @@ export default function Home() {
       {/* <Services /> */}
       <QualityFeatures />
       {/* <CoreFeatures /> */}
-      {/* <Work /> */}
+      <Work />
       <Pricing />
       <Team />
       {/* <Testimonials /> */}
