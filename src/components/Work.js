@@ -123,7 +123,7 @@ const Work = () => {
               details="In our WhatsApp group, we will provide you with five different tasks. You can choose any three to complete."
               instruction="Receive tasks that you can follow and complete at your own pace."
               buttonLabel="Join Whatsapp"
-              buttonLink="https://whatsapp.com/channel/0029VanI7nWICVfmZNowKf3x"
+              buttonLink="https://chat.whatsapp.com/Gtd0cEf5TbiIS3KdZVbTqE"
               animation={{ initial: { scale: 0.5, opacity: 0 }, animate: { scale: 1, opacity: 1 }, delay: 0.4 }}
               isVisible={isVisible} // Pass visibility state
             />
