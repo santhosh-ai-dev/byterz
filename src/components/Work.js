@@ -3,6 +3,17 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const WorkCard = ({ num, title, details, duration, certificate, instruction, offerLetterInfo, buttonLabel, buttonLink, animation, isVisible }) => {
+  const handleClick = (e) => {
+    e.preventDefault();
+    const today = new Date();
+    const targetDate = new Date("2024-12-01");
+    if (today < targetDate) {
+      alert("Link will be open on 01-DEC-2024");
+    } else {
+      window.open(buttonLink, "_blank", "noopener,noreferrer");
+    }
+  };
+
   return (
     <motion.div
       initial={animation.initial}
@@ -18,18 +29,8 @@ const WorkCard = ({ num, title, details, duration, certificate, instruction, off
       <motion.p className="leading-loose">{details}</motion.p>
       {instruction && <motion.p className="text-sm text-gray-400 leading-loose">{instruction}</motion.p>}
       {offerLetterInfo && <motion.p className="text-sm text-gray-400 leading-loose">{offerLetterInfo}</motion.p>}
-      {buttonLabel && (
-        <div className="mt-4">
-          <a href={buttonLink} target="_blank" rel="noopener noreferrer">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              className="bg-rose-600 text-white font-semibold py-2 px-4 rounded hover:bg-rose-500"
-            >
-              {buttonLabel}
-            </motion.button>
-          </a>
-        </div>
-      )}
+
+      {/* Place duration and certificate before the button */}
       {duration && (
         <motion.p className="font-semibold">
           <strong>Duration:</strong> {duration}
@@ -39,6 +40,19 @@ const WorkCard = ({ num, title, details, duration, certificate, instruction, off
         <motion.p className="font-semibold">
           <strong>Certificate:</strong> {certificate}
         </motion.p>
+      )}
+
+      {buttonLabel && (
+        <div className="mt-4">
+          <a href={buttonLink} target="_blank" rel="noopener noreferrer" onClick={handleClick}>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              className="bg-rose-600 text-white font-semibold py-2 px-4 rounded hover:bg-rose-500"
+            >
+              {buttonLabel}
+            </motion.button>
+          </a>
+        </div>
       )}
     </motion.div>
   );
@@ -55,7 +69,7 @@ const Work = () => {
         setIsVisible(entry.isIntersecting);
       },
       {
-        threshold: 0.2, // Adjust this value to trigger the animation earlier or later when scrolling
+        threshold: 0.2,
       }
     );
 
@@ -78,7 +92,6 @@ const Work = () => {
       animate={isVisible ? { opacity: 1 } : {}}
       transition={{ duration: 0.8, ease: "easeInOut" }}
       className="w-full bg-black text-white bg-[url('/work/workbg.png')] bg-cover bg-no-repeat bg-center"
-
     >
       <div className="flex flex-col gap-10 lg:gap-16 container mx-auto md:px-16 px-5 py-12 sm:py-20 md:py-36">
         <div>
@@ -112,7 +125,7 @@ const Work = () => {
               buttonLabel="View Registration Form"
               buttonLink="https://forms.gle/osFrC5p1zf9pNB5S6"
               animation={{ initial: { x: -100, opacity: 0 }, animate: { x: 0, opacity: 1 }, delay: 0.2 }}
-              isVisible={isVisible} // Pass visibility state
+              isVisible={isVisible}
             />
           </div>
 
@@ -125,7 +138,7 @@ const Work = () => {
               buttonLabel="Join Whatsapp"
               buttonLink="https://chat.whatsapp.com/Gtd0cEf5TbiIS3KdZVbTqE"
               animation={{ initial: { scale: 0.5, opacity: 0 }, animate: { scale: 1, opacity: 1 }, delay: 0.4 }}
-              isVisible={isVisible} // Pass visibility state
+              isVisible={isVisible}
             />
           </div>
 
@@ -136,8 +149,10 @@ const Work = () => {
               details="Submit your completed tasks for review and receive your certificate."
               duration="1 Month"
               certificate="Certificate provided within 1 week"
-              animation={{ initial: { x: 100, opacity: 0 }, animate: { x: 0, opacity: 1 }, delay: 0.6 }}
-              isVisible={isVisible} // Pass visibility state
+              buttonLabel="Submission Link"
+              buttonLink="https://chat.whatsapp.com/Gtd0cEf5TbiIS3KdZVbTqE"
+              animation={{ initial: { scale: 0.5, opacity: 0 }, animate: { scale: 1, opacity: 1 }, delay: 0.4 }}
+              isVisible={isVisible}
             />
           </div>
         </motion.div>
