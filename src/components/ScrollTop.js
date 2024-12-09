@@ -1,34 +1,34 @@
 "use client";
-import NorthRoundedIcon from "@mui/icons-material/NorthRounded";
-import ChatIcon from "@mui/icons-material/Chat"; // Chatbot Icon
-import CloseIcon from "@mui/icons-material/Close"; // Close Icon
-import { useEffect, useRef, useState } from "react";
+import ChatIcon from "@mui/icons-material/Chat";
+import CloseIcon from "@mui/icons-material/Close";
+import { useEffect, useState } from "react";
 
-const ScrollTop = () => {
-  const arrow = useRef();
+const ChatBot = () => {
   const [chatVisible, setChatVisible] = useState(false);
-  const [messages, setMessages] = useState([{ type: "bot", text: "Welcome! How can I help you today?" }]);
+  const [chatButtonVisible, setChatButtonVisible] = useState(false);
+  const [messages, setMessages] = useState([
+    { type: "bot", text: "Welcome! How can I help you today?" },
+  ]);
   const [inputValue, setInputValue] = useState("");
 
-  const GEMINI_API_KEY ="AIzaSyA24FQxCGq-bF5vxTw-4dfjIQTKdPH22EI";
-  const GEMINI_API_URL ="https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyA24FQxCGq-bF5vxTw-4dfjIQTKdPH22EI";
+  const GEMINI_API_URL =
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyA24FQxCGq-bF5vxTw-4dfjIQTKdPH22EI";
 
   useEffect(() => {
-    window.onscroll = () => {
+    const handleScroll = () => {
       if (window.pageYOffset >= 200) {
-        arrow.current.classList.add("right-8");
+        setChatButtonVisible(true);
       } else {
-        arrow.current.classList.remove("right-8");
+        setChatButtonVisible(false);
       }
     };
-  }, []);
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const toggleChat = () => {
     setChatVisible(!chatVisible);
@@ -38,39 +38,38 @@ const ScrollTop = () => {
     if (!inputValue.trim()) return;
 
     // Add user message to the chat
-    setMessages([...messages, { type: "user", text: inputValue }]);
+    setMessages((prev) => [...prev, { type: "user", text: inputValue }]);
 
     try {
-      // Call Gemini API to generate a response
+      // API Call
       const response = await fetch(GEMINI_API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${GEMINI_API_KEY}`,
         },
         body: JSON.stringify({
-          message: inputValue,
+          prompt: inputValue, // Assuming the API accepts 'prompt'
         }),
       });
 
       const data = await response.json();
 
       // Add bot response to the chat
-      if (data.reply) {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { type: "bot", text: data.reply },
+      if (data && data.choices && data.choices[0].message) {
+        setMessages((prev) => [
+          ...prev,
+          { type: "bot", text: data.choices[0].message.content },
         ]);
       } else {
-        setMessages((prevMessages) => [
-          ...prevMessages,
+        setMessages((prev) => [
+          ...prev,
           { type: "bot", text: "Sorry, I couldn't process that." },
         ]);
       }
     } catch (error) {
       console.error("Error with Gemini API:", error);
-      setMessages((prevMessages) => [
-        ...prevMessages,
+      setMessages((prev) => [
+        ...prev,
         { type: "bot", text: "An error occurred. Please try again later." },
       ]);
     }
@@ -81,24 +80,27 @@ const ScrollTop = () => {
 
   return (
     <div className="overflow-hidden">
-      {/* Scroll to Top Button */}
-      <button
-        aria-label="scroll-to-top"
-        className={`fixed bottom-20 -right-full transition-all duration-500 shadow-2xl shadow-black text-gray-500 bg-white hover:bg-[#ececec] p-2 rounded`}
-        onClick={scrollToTop}
-        ref={arrow}
-      >
-        <NorthRoundedIcon />
-      </button>
-
       {/* Chatbot Button */}
       <button
-        aria-label="chatbot"
-        className="fixed bottom-4 right-4 md:right-8 z-50 transition-all duration-500 shadow-2xl shadow-black text-gray-500 bg-white hover:bg-[#ececec] p-3 rounded-full"
-        onClick={toggleChat}
-      >
-        {chatVisible ? <CloseIcon /> : <ChatIcon />}
-      </button>
+  aria-label="chatbot"
+  className={`fixed bottom-4 right-4 md:right-8 z-50 transition-all duration-500 shadow-2xl shadow-black text-gray-500 bg-white hover:bg-[#ececec] p-3 rounded-full ${
+    chatButtonVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+  }`}
+  onClick={toggleChat}
+  style={{ pointerEvents: chatButtonVisible ? "auto" : "none" }}
+>
+  {chatVisible ? (
+    <CloseIcon /> // Existing close icon logic
+  ) : (
+    <img
+      src="/chatbot_17115944.png" // Path to your uploaded image
+      alt="Chatbot"
+      className="w-10 h-10 object-contain" // Ensure the image fits properly
+    />
+  )}
+</button>
+
+
 
       {/* Chatbot Window */}
       {chatVisible && (
@@ -107,9 +109,10 @@ const ScrollTop = () => {
           <div className="bg-[#ececec] p-4 flex items-center justify-between border-b border-gray-300">
             <div className="flex items-center">
               <img
-                src="/favicon.ico" // Replace with your logo's path
+                src="/favicon.ico"
                 alt="Chatbot Logo"
                 className="w-8 h-8 rounded-full mr-2"
+                onError={(e) => (e.target.style.display = "none")} // Hide if not found
               />
               <h2 className="text-gray-700 font-semibold text-base md:text-lg">
                 Byterz Tech Bot
@@ -159,4 +162,4 @@ const ScrollTop = () => {
   );
 };
 
-export default ScrollTop;
+export default ChatBot;
