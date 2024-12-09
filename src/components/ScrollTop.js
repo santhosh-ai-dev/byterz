@@ -140,22 +140,29 @@ const ChatBot = () => {
             ))}
           </div>
 
-          {/* Chat Input */}
-          <div className="p-2 border-t border-gray-300">
-            <input
-              type="text"
-              placeholder="Type your message..."
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              className="w-full p-2 border rounded focus:outline-none focus:ring"
-            />
-            <button
-              onClick={sendMessage}
-              className="mt-2 w-full p-2 bg-blue-500 text-white rounded"
-            >
-              Send
-            </button>
-          </div>
+         {/* Chat Input */}
+<div className="p-2 border-t border-gray-300">
+  <input
+    type="text"
+    placeholder="Type your message..."
+    value={inputValue}
+    onChange={(e) => setInputValue(e.target.value)}
+    className="w-full p-2 border rounded focus:outline-none focus:ring"
+    style={{
+      backgroundColor: "#f5f5f5", // Light gray background
+      color: "#333", // Dark text color
+      borderColor: "#ddd", // Light border color
+      borderWidth: "1px",
+    }}
+  />
+  <button
+    onClick={sendMessage}
+    className="mt-2 w-full p-2 bg-blue-500 text-white rounded"
+  >
+    Send
+  </button>
+</div>
+
         </div>
       )}
     </div>
