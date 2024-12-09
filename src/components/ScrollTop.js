@@ -1,77 +1,88 @@
 "use client";
-import ChatIcon from "@mui/icons-material/Chat";
-import CloseIcon from "@mui/icons-material/Close";
-import { useEffect, useState } from "react";
+import NorthRoundedIcon from "@mui/icons-material/NorthRounded";
+import ChatIcon from "@mui/icons-material/Chat"; // Chatbot Icon
+import CloseIcon from "@mui/icons-material/Close"; // Close Icon
+import { useEffect, useRef, useState } from "react";
 
-const ChatBot = () => {
+const ScrollTop = () => {
+  const arrow = useRef();
+  const messagesEndRef = useRef(null);
   const [chatVisible, setChatVisible] = useState(false);
-  const [chatButtonVisible, setChatButtonVisible] = useState(false);
   const [messages, setMessages] = useState([
-    { type: "bot", text: "Welcome! How can I help you today?" },
-  ]);
+    { type: "bot", text: "Welcome! How can I assist you today?" },
+  ]); // Initial greeting message
   const [inputValue, setInputValue] = useState("");
-
-  const GEMINI_API_URL =
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyA24FQxCGq-bF5vxTw-4dfjIQTKdPH22EI";
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
+    window.onscroll = () => {
       if (window.pageYOffset >= 200) {
-        setChatButtonVisible(true);
+        arrow.current.classList.add("right-8");
       } else {
-        setChatButtonVisible(false);
+        arrow.current.classList.remove("right-8");
       }
     };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
   }, []);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   const toggleChat = () => {
     setChatVisible(!chatVisible);
   };
 
+  // Function to handle message sending
   const sendMessage = async () => {
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim() || isLoading) return;
 
     // Add user message to the chat
-    setMessages((prev) => [...prev, { type: "user", text: inputValue }]);
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { type: "user", text: inputValue },
+    ]);
+    setIsLoading(true); // Set loading to true while waiting for response
 
     try {
-      // API Call
-      const response = await fetch(GEMINI_API_URL, {
+      // Call the API with the user message
+      const response = await fetch("/api/gemini", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          prompt: inputValue, // Assuming the API accepts 'prompt'
-        }),
+        body: JSON.stringify({ message: inputValue }),
       });
 
       const data = await response.json();
+      console.log(data);
 
-      // Add bot response to the chat
-      if (data && data.choices && data.choices[0].message) {
-        setMessages((prev) => [
-          ...prev,
-          { type: "bot", text: data.choices[0].message.content },
+      // Handle Gemini response
+      if (data.reply) {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { type: "bot", text: data.reply },
         ]);
       } else {
-        setMessages((prev) => [
-          ...prev,
-          { type: "bot", text: "Welcome to Byterz Tech." },
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { type: "bot", text: "Sorry, I couldn't process that." },
         ]);
       }
     } catch (error) {
       console.error("Error with Gemini API:", error);
-      setMessages((prev) => [
-        ...prev,
+      setMessages((prevMessages) => [
+        ...prevMessages,
         { type: "bot", text: "An error occurred. Please try again later." },
       ]);
+    } finally {
+      setIsLoading(false); // Set loading to false after the response
     }
 
     // Clear input field
@@ -80,27 +91,24 @@ const ChatBot = () => {
 
   return (
     <div className="overflow-hidden">
+      {/* Scroll to Top Button */}
+      <button
+        aria-label="scroll-to-top"
+        className="fixed bottom-20 -right-full transition-all duration-500 shadow-2xl shadow-black text-gray-500 bg-white hover:bg-[#ececec] p-2 rounded"
+        onClick={scrollToTop}
+        ref={arrow}
+      >
+        <NorthRoundedIcon />
+      </button>
+
       {/* Chatbot Button */}
       <button
-  aria-label="chatbot"
-  className={`fixed bottom-4 right-4 md:right-8 z-50 transition-all duration-500 shadow-2xl shadow-black text-gray-500 bg-white hover:bg-[#ececec] p-3 rounded-full ${
-    chatButtonVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-  }`}
-  onClick={toggleChat}
-  style={{ pointerEvents: chatButtonVisible ? "auto" : "none" }}
->
-  {chatVisible ? (
-    <CloseIcon /> // Existing close icon logic
-  ) : (
-    <img
-      src="/chatbot_17115944.png" // Path to your uploaded image
-      alt="Chatbot"
-      className="w-10 h-10 object-contain" // Ensure the image fits properly
-    />
-  )}
-</button>
-
-
+        aria-label="chatbot"
+        className="fixed bottom-4 right-4 md:right-8 z-50 transition-all duration-500 shadow-2xl shadow-black text-gray-500 bg-white hover:bg-[#ececec] p-3 rounded-full"
+        onClick={toggleChat}
+      >
+        {chatVisible ? <CloseIcon /> : <ChatIcon />}
+      </button>
 
       {/* Chatbot Window */}
       {chatVisible && (
@@ -109,10 +117,9 @@ const ChatBot = () => {
           <div className="bg-[#ececec] p-4 flex items-center justify-between border-b border-gray-300">
             <div className="flex items-center">
               <img
-                src="/favicon.ico"
+                src="/favicon.ico" // Replace with your logo's path
                 alt="Chatbot Logo"
                 className="w-8 h-8 rounded-full mr-2"
-                onError={(e) => (e.target.style.display = "none")} // Hide if not found
               />
               <h2 className="text-gray-700 font-semibold text-base md:text-lg">
                 Byterz Tech Bot
@@ -138,35 +145,30 @@ const ChatBot = () => {
                 {message.text}
               </p>
             ))}
+            <div ref={messagesEndRef} /> {/* This will ensure auto-scrolling */}
           </div>
 
-         {/* Chat Input */}
-<div className="p-2 border-t border-gray-300">
-  <input
-    type="text"
-    placeholder="Type your message..."
-    value={inputValue}
-    onChange={(e) => setInputValue(e.target.value)}
-    className="w-full p-2 border rounded focus:outline-none focus:ring"
-    style={{
-      backgroundColor: "#f5f5f5", // Light gray background
-      color: "#333", // Dark text color
-      borderColor: "#ddd", // Light border color
-      borderWidth: "1px",
-    }}
-  />
-  <button
-    onClick={sendMessage}
-    className="mt-2 w-full p-2 bg-blue-500 text-white rounded"
-  >
-    Send
-  </button>
-</div>
-
+          {/* Chat Input */}
+          <div className="p-2 border-t border-gray-300">
+            <input
+              type="text"
+              placeholder="Type your message..."
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              className="w-full p-2 border rounded focus:outline-none focus:ring"
+            />
+            <button
+              onClick={sendMessage}
+              className="mt-2 w-full p-2 bg-blue-500 text-white rounded"
+              disabled={isLoading} // Disable while waiting for response
+            >
+              {isLoading ? "Sending..." : "Send"}
+            </button>
+          </div>
         </div>
       )}
     </div>
   );
 };
 
-export default ChatBot;
+export default ScrollTop;
