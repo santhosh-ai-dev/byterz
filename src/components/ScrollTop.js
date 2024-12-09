@@ -63,7 +63,7 @@ const ChatBot = () => {
       } else {
         setMessages((prev) => [
           ...prev,
-          { type: "bot", text: "Sorry, I couldn't process that." },
+          { type: "bot", text: "Welcome to Byterz Tech." },
         ]);
       }
     } catch (error) {
