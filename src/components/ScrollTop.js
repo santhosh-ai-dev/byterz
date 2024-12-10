@@ -1,7 +1,6 @@
 "use client";
 import CloseIcon from "@mui/icons-material/Close"; // Close Icon
-import { useEffect, useRef, useState } from "react";
-
+import { useEffect, useState } from "react";
 
 const Chatbot = () => {
   const [chatVisible, setChatVisible] = useState(false);
@@ -11,14 +10,17 @@ const Chatbot = () => {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showChatButton, setShowChatButton] = useState(false);
+  const [animateChatButton, setAnimateChatButton] = useState(false);
 
   useEffect(() => {
     // Show chatbot button when user scrolls down
     const handleScroll = () => {
       if (window.pageYOffset > 200) {
         setShowChatButton(true);
+        setAnimateChatButton(true);
       } else {
         setShowChatButton(false);
+        setAnimateChatButton(false);
       }
     };
 
@@ -82,7 +84,7 @@ const Chatbot = () => {
         <button
           aria-label="chatbot"
           className={`fixed bottom-4 right-4 md:right-8 z-50 shadow-2xl shadow-black text-gray-500 bg-white hover:bg-[#ececec] p-3 rounded-full ${
-            chatVisible ? "animate-slideIn" : ""
+            animateChatButton ? "animate-slideFromRight" : ""
           }`}
           onClick={toggleChat}
         >
@@ -92,7 +94,7 @@ const Chatbot = () => {
             <img
               src="chatbot.png" // Replace with the path to your image
               alt="Chatbot Icon"
-              className="w-8 h-8"
+              className="w-10 h-10"
             />
           )}
         </button>
@@ -100,7 +102,12 @@ const Chatbot = () => {
 
       {/* Chatbot Window */}
       {chatVisible && (
-        <div className="fixed bottom-20 md:bottom-24 right-4 md:right-8 w-[90%] md:w-80 h-[70vh] md:h-96 bg-white shadow-2xl rounded-lg border border-gray-300 flex flex-col overflow-hidden z-50 animate-slideIn">
+        <div
+          className="fixed bottom-20 md:bottom-24 right-4 md:right-8 w-[90%] md:w-80 h-[70vh] md:h-96 bg-white shadow-2xl rounded-lg border border-gray-300 flex flex-col overflow-hidden z-50"
+          style={{
+            animation: "slideIn 0.5s ease-out", // Add slide-in animation
+          }}
+        >
           {/* Chatbot Header */}
           <div className="bg-[#ececec] p-4 flex items-center justify-between border-b border-gray-300">
             <div className="flex items-center">
@@ -136,32 +143,53 @@ const Chatbot = () => {
           </div>
 
           {/* Chat Input */}
-<div className="p-2 border-t border-gray-300">
-  <input
-    type="text"
-    placeholder="Type your message..."
-    value={inputValue}
-    onChange={(e) => setInputValue(e.target.value)}
-    className="w-full p-2 border rounded focus:outline-none focus:ring"
-    style={{
-      backgroundColor: "#f5f5f5", // Light gray background
-      color: "#333", // Dark text color
-      borderColor: "#ddd", // Light border color
-      borderWidth: "1px",
-    }}
-  />
-  <button
-    onClick={sendMessage}
-    className="mt-2 w-full p-2 bg-blue-500 text-white rounded"
-  >
-    Send
-  </button>
+          <div className="p-2 border-t border-gray-300">
+            <input
+              type="text"
+              placeholder="Type your message..."
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              className="w-full p-2 border rounded focus:outline-none focus:ring"
+              style={{
+                backgroundColor: "#f5f5f5", // Light gray background
+                color: "#333", // Dark text color
+                borderColor: "#ddd", // Light border color
+                borderWidth: "1px",
+              }}
+            />
+            <button
+              onClick={sendMessage}
+              className="mt-2 w-full p-2 bg-blue-500 text-white rounded"
+            >
+              Send
+            </button>
           </div>
         </div>
       )}
+
+      <style jsx>{`
+        @keyframes slideIn {
+          0% {
+            transform: translateY(100%);
+          }
+          100% {
+            transform: translateY(0);
+          }
+        }
+        @keyframes slideFromRight {
+          0% {
+            transform: translateX(100%);
+          }
+          100% {
+            transform: translateX(0);
+          }
+        }
+        .animate-slideFromRight {
+          animation: slideFromRight 0.5s ease-out;
+        }
+      `}</style>
     </div>
   );
 };
-
 
 export default Chatbot;
