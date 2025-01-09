@@ -82,6 +82,22 @@ const Team = () => {
       </h2>
 
       <div className="mx-auto grid grid-cols-2 lg:grid-cols-3 gap-y-8 sm:gap-8 mt-16">
+      <TeamCard
+          imgSrc={"/team/2.png"}
+          name="EZHILARASU"
+          title="Founder & CEO"
+          socialLinks={{
+            linkedin: "https://www.linkedin.com/in/ezhilarasu-v-r-4745192a8/",
+          }}
+        />
+        <TeamCard
+          imgSrc={"/team/3.png"}
+          name="SANTHOSH"
+          title="Co-Founder"
+          socialLinks={{
+            linkedin: "https://www.linkedin.com/in/santhosh-r-ds-ai/",
+          }}
+        />
         <TeamCard
           imgSrc={"/team/1.png"}
           name="MANI BHARATHI"
@@ -91,27 +107,27 @@ const Team = () => {
           }}
         />
         <TeamCard
-          imgSrc={"/team/2.png"}
-          name="EZHILARASU"
-          title="Front-End Developer"
+          imgSrc={"/team/8.jpg"}
+          name="BHUVANESH"
+          title="Software Tester"
           socialLinks={{
-            linkedin: "https://www.linkedin.com/in/ezhilarasu-v-r-4745192a8/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+            linkedin: "https://www.linkedin.com/in/bhuvanesh-s-851305287/",
           }}
         />
         <TeamCard
-          imgSrc={"/team/3.png"}
-          name="SANTHOSH"
-          title="Back-End/Ai Developer"
+          imgSrc={"/team/9.jpg"}
+          name="THAHEER"
+          title="Data Analyst"
           socialLinks={{
-            linkedin: "https://www.linkedin.com/in/santhosh-r-ds-ai/",
+            linkedin: "https://www.linkedin.com/in/thaheer-s/",
           }}
         />
-          <TeamCard
-          imgSrc={"/team/7.jpg"}
-          name="RAHULPRASAD"
-          title="Software Tester"
+        <TeamCard
+          imgSrc={"/team/10.jpg"}
+          name="JEEVAN"
+          title="MEAN Stack Developer"
           socialLinks={{
-            linkedin: "https://www.linkedin.com/in/rahulprasad-veeramani29",
+            linkedin: "https://www.linkedin.com/in/jeevan-prakash-8942b7287/",
           }}
         />
       </div>
