@@ -99,7 +99,7 @@ const Team = () => {
           }}
         />
         <TeamCard
-          imgSrc={"/team/1.png"}
+          imgSrc={"/team/1.jpg"}
           name="MANI BHARATHI"
           title="Full-Stack Developer"
           socialLinks={{
