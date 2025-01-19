@@ -101,7 +101,7 @@ const Team = () => {
         <TeamCard
           imgSrc={"/team/1.jpg"}
           name="MANI BHARATHI"
-          title="Java Developer"
+          title="Java Full-Stack Developer"
           socialLinks={{
             linkedin: "https://www.linkedin.com/in/mani-bharathi-r-275190252",
           }}
@@ -133,7 +133,7 @@ const Team = () => {
         <TeamCard
           imgSrc={"/team/11.jpg"}
           name="THANUSH"
-          title="Python Developer"
+          title="Python Full-Stack Developer"
           socialLinks={{
             linkedin: "https://www.linkedin.com/in/thanush29/",
           }}
